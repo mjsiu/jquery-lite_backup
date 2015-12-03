@@ -81,7 +81,7 @@
   DOMNodeCollection.prototype.removeClass = function (oldClass) {
     this.HTMLels.forEach( function(el){
       if (el.hasAttribute("class")) {
-        var classArray = el.getAttribute("class").split('');
+        var classArray = el.getAttribute("class").split(' ');
       }
 
       for (var i = 0; i < classArray.length; i++) {
