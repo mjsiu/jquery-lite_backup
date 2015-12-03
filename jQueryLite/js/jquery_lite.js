@@ -94,4 +94,51 @@
     });
   };
 
+  DOMNodeCollection.prototype.children = function () {
+    var allMyChildren = [];
+    this.HTMLels.forEach( function(el){
+      if(el.children.length >0){
+        allMyChildren = allMyChildren.concat(el.children);
+      }
+    });
+    return new DOMNodeCollection(allMyChildren);
+  };
+
+  DOMNodeCollection.prototype.parent = function () {
+    var myThreeDads = [];
+
+    this.HTMLels.forEach( function(el){
+        myThreeDads = myThreeDads.concat(el.parentNode);
+    });
+    return new DOMNodeCollection(myThreeDads);
+  };
+
+DOMNodeCollection.prototype.find = function (arg) {
+  var matches = [];
+  var nodeList = document.querySelectorAll(arg);
+  var nodeListArray = [].slice.call(nodeList);
+  this.HTMLels.forEach( function(el){
+    nodeListArray.forEach(function(node){
+      if (el.contains(node)){
+        matches.push(node);
+      }
+    });
+  });
+  return new DOMNodeCollection(matches);
+};
+
+DOMNodeCollection.prototype.remove = function (arg) {
+  var matched = null;
+
+  if (typeof arg !== "undefined") {
+    matched = this.find(arg).HTMLels;
+  } else {
+    matched = this.HTMLels;
+  }
+
+  matched.forEach(function(el) {
+    el.parentNode.removeChild(el);
+  });
+};
+
 }());
