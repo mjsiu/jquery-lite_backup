@@ -5,7 +5,12 @@
   };
 
   if (typeof $l === "undefined") {
+    var que = [];
     window.$l = function (arg){
+      if (arg instanceof Function) {
+        que.push(arg);
+      }
+
       if (typeof arg === 'string'){
         var nodeList = document.querySelectorAll(arg);
         var nodeListArray = [].slice.call(nodeList);
@@ -15,7 +20,18 @@
         return new DOMNodeCollection(HTMLArray);
       }
     };
+    if (document.readyState === "complete") {
+      que.forEach(function(fn) {
+        fn();
+      });
+    } else {
+      document.addEventListener("DOMContentLoaded", function() {
+        que.forEach(function(fn) {
+        fn();
+      });
+    });
   }
+}
     /* DRYs out the code
       arg = document.querySelectorAll(arg);
     var newArray = [].slice.call(arg);
