@@ -141,4 +141,15 @@ DOMNodeCollection.prototype.remove = function (arg) {
   });
 };
 
+DOMNodeCollection.prototype.on = function (type, fn) {
+  this.HTMLels.forEach( function(el){
+    el.addEventListener( type, fn);
+  });
+};
+
+DOMNodeCollection.prototype.off = function (type, fn) {
+  this.HTMLels.forEach( function(el){
+    el.removeEventListener( type, fn);
+  });
+};
 }());
