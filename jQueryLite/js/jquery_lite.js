@@ -54,7 +54,7 @@
 
   var ajax = $l.ajax = function(options){
     var deFault = {
-      method: 'Get',
+      method: 'GET',
       success: function(){console.log("success");},
       error: function(){console.log("error");},
       data: null,
@@ -62,8 +62,16 @@
       url: ""
     };
 
-    $l.extend(deFault, options);
-    // success, error, url, method, data, and contentType
+    extend(deFault, options);
+
+    function reqListener () {
+      console.log(this.responseText);
+    }
+
+    var req = new XMLHttpRequest();
+    req.addEventListener("load", reqListener);
+    req.open(deFault['method'], deFault['url']);
+    req.send();
   };
     /* DRYs out the code
       arg = document.querySelectorAll(arg);
