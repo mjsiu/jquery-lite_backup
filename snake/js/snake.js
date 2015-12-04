@@ -4,24 +4,29 @@ function Coord (x, y) {
 }
 
 var DIRECTIONS = {
-  "N": new Coord(0, 1),
-  "S": new Coord(0, -1),
+  "N": new Coord(0, -1),
+  "S": new Coord(0, 1),
   "W": new Coord(-1, 0),
   "E": new Coord(1, 0)
 };
 
 function Snake () {
   this.direction = "N"; // E, S, W
-  this.segments = [];
+  this.segments = [
+    new Coord(10,10),
+    new Coord(10,11),
+    new Coord(10,12),
+    new Coord(10,13),
+    new Coord(10,14)
+  ];
   this.head = this.segments[0];
 }
 
-function Board (snake) {
-  this.snake = snake;
+function Board () {
+  this.snake = new Snake();
   this.apples = [];
-
+  
 }
-
 
 Coord.prototype.plus = function (secondCord) {
   var x = this.x + secondCord.x;
@@ -42,8 +47,10 @@ Snake.prototype.move = function () {
   this.segments.pop();
 };
 
-Snake.prototype.turn = function (direction) {
-  this.direction = direction;
+Snake.prototype.turn = function (newDirection) {
+  if (!DIRECTIONS[this.direction].isOpposite(DIRECTIONS[newDirection])){
+    this.direction = direction;
+  }
 };
 
 module.exports = Board;
